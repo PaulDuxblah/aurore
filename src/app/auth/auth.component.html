@@ -1,0 +1,17 @@
+<form [formGroup]="login" novalidate>
+    <div>
+        <label for="email">EMAIL</label>
+        <input name="email" type="text" formControlName="email" #email />
+    </div>
+
+    <div>
+        <label for="password">PASSWORD</label>
+        <input name="password" type="password" formControlName="password" #password />
+    </div>
+
+    <div>
+        <button (click)="loginAdmin(login.value.email, login.value.password)">LOGIN</button>
+
+        <span class="error">{{ error }}</span>
+    </div>
+</form>
