@@ -10,6 +10,7 @@ const salt = config.salt;
 const bcrypt = require('bcrypt');
 
 let Student = require('../models/Student');
+let Address = require('../models/Address');
 
 studentRoutes.use(bodyParser.urlencoded({extended: true}));
 studentRoutes.use(bodyParser.json());
@@ -19,7 +20,7 @@ const checkIfAuthenticated = expressJwt({
 });
 
 function getMissingFields(values) {
-  const requiredFields = ['firstName', 'lastName', 'email'];
+  const requiredFields = ['firstName', 'lastName', 'email', 'address'];
   let missingFields = [];
 
   requiredFields.forEach(function(field) {
@@ -44,9 +45,14 @@ studentRoutes.route('/').post(function (req, res) {
     return;
   }
 
-  let student = new Student(req.body);
+  let address = new Address(req.body.address);
 
-  student.save()
+  address.save()
+  .then(address => {
+    let student = new Student(req.body);
+    student.address = address._id;
+
+    student.save()
     .then(student => {
       res.json(student);
     })
@@ -54,10 +60,19 @@ studentRoutes.route('/').post(function (req, res) {
       console.log(err);
       switch (err.code) {
         default:
-          res.status(400).send("unable to save to database");
+          res.status(400).send("Unable to save student to database");
           break;
       }
     });
+  })
+  .catch(err => {
+    console.log(err);
+    switch (err.code) {
+      default:
+        res.status(400).send("Unable to save address to database");
+        break;
+    }
+  });
 });
 
 // GET

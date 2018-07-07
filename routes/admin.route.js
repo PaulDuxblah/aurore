@@ -28,14 +28,14 @@ function getJWTObject(jwtBearerToken, admin) {
       _id: admin._id,
       email: admin.email
     },
-    expiresIn: 120
+    expiresIn: 3600
   };
 }
 
 function adminLogged(res, admin) {
     console.log('success');
     const jwtBearerToken = generateJWT(admin.id);
-    res.cookie("AdminID", jwtBearerToken, {httpOnly:true, secure:true});
+    res.cookie("AdminID", jwtBearerToken, { httpOnly: true, secure: true });
     res.status(200).json(getJWTObject(jwtBearerToken, admin));
 }
 

@@ -1,0 +1,55 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="add">
+    <div>
+        <h2>Personnel</h2>
+
+        <div>
+            <label for="firstName">Prénom</label>
+            <input name="firstName" type="text" formControlName="firstName" #firstName />
+        </div>
+
+        <div>
+            <label for="lastName">Nom</label>
+            <input name="lastName" type="text" formControlName="lastName" #lastName />
+        </div>
+
+        <div>
+            <label for="email">Email</label>
+            <input name="email" type="text" formControlName="email" #email />
+        </div>
+
+        <div>
+            <label for="phone">Téléphone</label>
+            <input name="phone" type="text" formControlName="phone" #phone maxlength="10" />
+        </div>
+    </div>
+
+    <div>
+        <h2>Adresse</h2>
+
+        <div>
+            <label for="road">Rue</label>
+            <input name="road" type="text" formControlName="road" #road />
+        </div>
+
+        <div>
+            <label for="complement">Complément d'adresse</label>
+            <input name="complement" type="text" formControlName="complement" #complement />
+        </div>
+
+        <div>
+            <label for="city">Ville</label>
+            <input name="city" type="text" formControlName="city" #city />
+        </div>
+
+        <div>
+            <label for="zipcode">ZIP</label>
+            <input name="zipcode" type="number" formControlName="zipcode" #zipcode maxlength="5" />
+        </div>
+    </div>
+
+    <div>
+        <button type="submit">Ajouter élève</button>
+
+        <span class="error">{{ error }}</span>
+    </div>
+</form>
