@@ -11,6 +11,7 @@ const bcrypt = require('bcrypt');
 
 let Student = require('../models/Student');
 let Address = require('../models/Address');
+let Person = require('../models/Person');
 
 studentRoutes.use(bodyParser.urlencoded({extended: true}));
 studentRoutes.use(bodyParser.json());
@@ -20,7 +21,7 @@ const checkIfAuthenticated = expressJwt({
 });
 
 function getMissingFields(values) {
-  const requiredFields = ['firstName', 'lastName', 'email', 'address'];
+  const requiredFields = ['person', 'inscriptionDate'];
   let missingFields = [];
 
   requiredFields.forEach(function(field) {
@@ -45,22 +46,37 @@ studentRoutes.route('/').post(function (req, res) {
     return;
   }
 
-  let address = new Address(req.body.address);
+  const address = new Address(req.body.person.address);
 
   address.save()
   .then(address => {
-    let student = new Student(req.body);
-    student.address = address._id;
+    const person = new Person(req.body.person);
+    person.address = address._id;
 
-    student.save()
-    .then(student => {
-      res.json(student);
+    person.save()
+    .then(person => {
+      const student = new Student(req.body);
+      student.person = person._id;
+
+      student.save()
+      .then(student => {
+        console.log('Student added!');
+        res.json(student);
+      })
+      .catch(err => {
+        console.log(err);
+        switch (err.code) {
+          default:
+            res.status(400).send("Unable to save student to database");
+            break;
+        }
+      });
     })
     .catch(err => {
       console.log(err);
       switch (err.code) {
         default:
-          res.status(400).send("Unable to save student to database");
+          res.status(400).send("Unable to save person to database");
           break;
       }
     });

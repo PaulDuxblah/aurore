@@ -15,6 +15,7 @@ mongoose.connect(config.DB).then(
 
 const adminRoute = require('./routes/admin.route');
 const studentRoute = require('./routes/student.route');
+const personRoute = require('./routes/person.route');
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -22,6 +23,7 @@ var port = process.env.PORT || 4000;
 
 app.use('/admins', adminRoute);
 app.use('/students', studentRoute);
+app.use('/persons', personRoute);
 
 var server = app.listen(port, function(){
   console.log('Listening on port ' + port);

@@ -2,24 +2,38 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let Student = new Schema({
-  firstName: {
-    type: String,
+  inscriptionDate: {
+    type: Date,
     required: true
   },
-  lastName: {
-    type: String,
-    required: true
+  imageAuthorization: {
+    type: Boolean,
+    default: false
   },
-  email: {
-    type: String
+  reduction: {
+    type: Number,
+    default: 0
   },
-  phone: {
-    type: String
-  },
-  address: {
+  person: {
     type: Schema.Types.ObjectId,
-    ref: 'Address',
+    ref: 'Person',
     required: true
+  },
+  father: {
+    type: Schema.Types.ObjectId,
+    ref: 'Person'
+  },
+  mother: {
+    type: Schema.Types.ObjectId,
+    ref: 'Person'
+  },
+  legalReponsible: {
+    type: Schema.Types.ObjectId,
+    ref: 'Person'
+  },
+  personToWarn: {
+    type: Schema.Types.ObjectId,
+    ref: 'Person'
   }
 }, {
   collection: 'students'
