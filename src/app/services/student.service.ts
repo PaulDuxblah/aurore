@@ -13,7 +13,6 @@ export class StudentService {
   constructor(private http: HttpClient, private adminservice: AdminService) { }
 
   doCall(uri, type, callback, params = {}) {
-    console.log(params);
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + this.adminservice.getToken()
     });

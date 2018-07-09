@@ -112,7 +112,9 @@ studentRoutes.route('/:id').post(function (req, res) {
 
 // GET ALL
 studentRoutes.route('/').get(function (req, res) {
-  Student.find(function (err, students){
+  Student.find()
+  .populate({ path: 'person', populate: { path: 'address' } })
+  .exec(function (err, students) {
     if(err){
       console.log('err');
       console.log(err);

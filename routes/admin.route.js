@@ -1,12 +1,18 @@
 const express = require('express');
+const expressJwt = require('express-jwt');
 const bodyParser = require('body-parser');
 const adminRoutes = express.Router();
 const jwt = require('jsonwebtoken');
 const fs = require("fs");
+const RSA_PUBLIC_KEY = fs.readFileSync('jwtRS256.key.pub');
 const RSA_PRIVATE_KEY = fs.readFileSync('jwtRS256.key');
 const config = require('../config/DB');
 const salt = config.salt;
 const bcrypt = require('bcrypt');
+
+const checkIfAuthenticated = expressJwt({
+  secret: RSA_PUBLIC_KEY
+});
 
 let Admin = require('../models/Admin');
 
@@ -40,7 +46,7 @@ function adminLogged(res, admin) {
 }
 
 // REGISTER
-adminRoutes.route('/add').post(function (req, res) {
+adminRoutes.route('/add').post(checkIfAuthenticated, function (req, res) {
   req.body.password = bcrypt.hashSync(req.body.password, salt);
   let admin = new Admin(req.body);
 
@@ -80,7 +86,7 @@ adminRoutes.route('/login').post(function (req, res) {
 });
 
 // GET ALL
-adminRoutes.route('/').get(function (req, res) {
+adminRoutes.route('/').get(checkIfAuthenticated, function (req, res) {
   Admin.find(function (err, admins){
     if(err){
       console.log('err');

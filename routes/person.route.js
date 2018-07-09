@@ -32,6 +32,11 @@ function getMissingFields(values) {
   return missingFields;
 }
 
+// CHECK IF CALLER IS AUTHORIZED
+personRoutes.route('*').all(checkIfAuthenticated, function (req, res, next) {
+  next();
+});
+
 // GET ALL
 personRoutes.route('/').get(function (req, res) {
   Person.find(function (err, persons){

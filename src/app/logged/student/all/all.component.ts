@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { StudentService } from '../../../services/student.service';
+import { StudentComponent } from '../student.component';
 
 @Component({
   selector: 'all',
@@ -9,14 +9,13 @@ import { StudentService } from '../../../services/student.service';
 export class AllComponent implements OnInit {
   students = [];
 
-  constructor(private studentservice: StudentService) {
+  constructor(private studentComponent: StudentComponent) {
     const _this = this;
-    this.studentservice.getAll(function(result) {
-      _this.students = result;
+    this.studentComponent.getAll(function(students) {
+      _this.students = students;
     });
   }
 
   ngOnInit() {
   }
-
 }
