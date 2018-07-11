@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Student from '../../../models/student';
 import { AdminService } from './admin.service';
 import * as moment from 'moment';
@@ -13,16 +13,20 @@ export class StudentService {
   constructor(private http: HttpClient, private adminservice: AdminService) { }
 
   doCall(uri, type, callback, params = {}) {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + this.adminservice.getToken()
+    });
+
     switch (type) {
       case 'GET':
-        this.http.get(uri).subscribe((students) => {
+        this.http.get(uri, { headers }).subscribe((students) => {
           callback(students);
         }, (error) => {
           callback(error);
         });
         break;
       case 'POST':
-        this.http.post(uri, params).subscribe((student) => {
+        this.http.post(uri, params, { headers }).subscribe((student) => {
           callback(student);
         }, (error) => {
           callback(error);
@@ -32,22 +36,14 @@ export class StudentService {
   }
 
   getAll(callback) {
-    this.http.get(this.uri).subscribe((students) => {
-      callback(students);
-    });
+    this.doCall(this.uri, 'GET', callback);
   }
 
   get(id, callback) {
-    this.http.get(this.uri + id).subscribe((student) => {
-      callback(student);
-    });
+    this.doCall(this.uri + id, 'GET', callback);
   }
 
   add(data, callback) {
-    this.http.post(this.uri, data).subscribe((student) => {
-      callback(student);
-    }, (error) => {
-      callback(error);
-    });
+    this.doCall(this.uri, 'POST', callback, data);
   }
 }

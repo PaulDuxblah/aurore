@@ -10,6 +10,8 @@ const salt = config.salt;
 const bcrypt = require('bcrypt');
 
 let Student = require('../models/Student');
+let Address = require('../models/Address');
+let Person = require('../models/Person');
 
 studentRoutes.use(bodyParser.urlencoded({extended: true}));
 studentRoutes.use(bodyParser.json());
@@ -19,7 +21,7 @@ const checkIfAuthenticated = expressJwt({
 });
 
 function getMissingFields(values) {
-  const requiredFields = ['firstName', 'lastName', 'email'];
+  const requiredFields = ['person', 'inscriptionDate'];
   let missingFields = [];
 
   requiredFields.forEach(function(field) {
@@ -44,20 +46,49 @@ studentRoutes.route('/').post(function (req, res) {
     return;
   }
 
-  let student = new Student(req.body);
+  const address = new Address(req.body.person.address);
 
-  student.save()
-    .then(student => {
-      res.json(student);
+  address.save()
+  .then(address => {
+    const person = new Person(req.body.person);
+    person.address = address._id;
+
+    person.save()
+    .then(person => {
+      const student = new Student(req.body);
+      student.person = person._id;
+
+      student.save()
+      .then(student => {
+        console.log('Student added!');
+        res.json(student);
+      })
+      .catch(err => {
+        console.log(err);
+        switch (err.code) {
+          default:
+            res.status(400).send("Unable to save student to database");
+            break;
+        }
+      });
     })
     .catch(err => {
       console.log(err);
       switch (err.code) {
         default:
-          res.status(400).send("unable to save to database");
+          res.status(400).send("Unable to save person to database");
           break;
       }
     });
+  })
+  .catch(err => {
+    console.log(err);
+    switch (err.code) {
+      default:
+        res.status(400).send("Unable to save address to database");
+        break;
+    }
+  });
 });
 
 // GET
@@ -81,7 +112,9 @@ studentRoutes.route('/:id').post(function (req, res) {
 
 // GET ALL
 studentRoutes.route('/').get(function (req, res) {
-  Student.find(function (err, students){
+  Student.find()
+  .populate({ path: 'person', populate: { path: 'address' } })
+  .exec(function (err, students) {
     if(err){
       console.log('err');
       console.log(err);

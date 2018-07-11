@@ -31,9 +31,15 @@ export class AuthComponent implements OnInit {
 
   loginAdmin(email, password) {
     const _this = this;
+    
     this.adminservice.login(email, password, function(data) {
       if (data.error) {
-        _this.error = data.error;
+        if (typeof data.error === 'object' && data.error.type === 'error') {
+          _this.error = 'Le serveur ne répond pas';
+        } else {
+          _this.error = data.error;
+        }
+
         return;
       }
 

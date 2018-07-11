@@ -10,10 +10,29 @@ import { AuthComponent } from './auth/auth.component';
 import { AdminService } from './services/admin.service';
 import { StudentService } from './services/student.service';
 import { LoggedComponent } from './logged/logged.component';
+import { StudentComponent } from './logged/student/student.component';
+import { AddComponent } from './logged/student/add/add.component';
+import { AllComponent } from './logged/student/all/all.component';
+import { EditComponent } from './logged/student/edit/edit.component';
 
 const appRoutes: Routes = [
   { path: '', component: AuthComponent },
-  { path: 'admin', component: LoggedComponent },
+  { 
+    path: 'admin', 
+    component: LoggedComponent, 
+    children: [
+      {
+        path: 'students', 
+        component: StudentComponent, 
+        children: [
+          { path: 'add', component: StudentComponent },
+          { path: 'all', component: StudentComponent },
+          { path: 'edit', component: StudentComponent },
+        ]
+      },
+      { path: '**', redirectTo: '' }
+    ]
+  },
   { path: '**', redirectTo: '' }
 ];
 
@@ -21,7 +40,11 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     AuthComponent,
-    LoggedComponent
+    LoggedComponent,
+    StudentComponent,
+    AddComponent,
+    AllComponent,
+    EditComponent
   ],
   imports: [
     BrowserModule,

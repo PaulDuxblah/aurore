@@ -11,8 +11,8 @@ export class LoggedComponent implements OnInit {
   admin;
   token;
 
-  constructor(private adminservice: AdminService, private router: Router) {
-    if (this.adminservice.isLoggedOut()) {
+  constructor(private adminService: AdminService, private router: Router) {
+    if (this.adminService.isLoggedOut()) {
       this.router.navigate(['/']);
     }
 
@@ -21,16 +21,16 @@ export class LoggedComponent implements OnInit {
   }
 
   logout() {
-    this.adminservice.logout();
+    this.adminService.logout();
     this.router.navigate(['/']);
   }
 
   getAdmin() {
-    return this.adminservice.getAdmin();
+    return this.adminService.getAdmin();
   }
 
   getToken() {
-    return this.adminservice.getToken();
+    return this.adminService.getToken();
   }
 
   ngOnInit() {

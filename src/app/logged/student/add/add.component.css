@@ -1,0 +1,22 @@
+form {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+form > div {
+  text-align: center;
+  margin-top: 2em;
+  box-sizing: border-box;
+}
+
+form > div > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+form > div:last-child {
+  width: 100%;
+}

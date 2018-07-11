@@ -1,0 +1,117 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="studentComponent.form">
+    <div>
+        <h2>Personnel</h2>
+
+        <div>
+            <label for="firstName">Prénom</label>
+            <input name="firstName" type="text" formControlName="firstName" #firstName />
+        </div>
+
+        <div>
+            <label for="lastName">Nom</label>
+            <input name="lastName" type="text" formControlName="lastName" #lastName />
+        </div>
+
+        <div>
+            <label for="birthDate">Date de naissance</label>
+            <input name="birthDate" type="date" formControlName="birthDate" #birthDate />
+        </div>
+
+        <div>
+            <label for="email">Email</label>
+            <input name="email" type="text" formControlName="email" #email />
+        </div>
+
+        <div>
+            <label for="phone">Téléphone</label>
+            <input name="phone" type="text" formControlName="phone" #phone maxlength="10" />
+        </div>
+
+        <div>
+            <label for="phone2">Téléphone 2</label>
+            <input name="phone2" type="text" formControlName="phone2" #phone2 maxlength="10" />
+        </div>
+
+        <div>
+            <label for="phone3">Téléphone 3</label>
+            <input name="phone3" type="text" formControlName="phone3" #phone3 maxlength="10" />
+        </div>
+    </div>
+
+    <div>
+        <h2>Relations</h2>
+
+        <div>
+            <label for="father">Père</label>
+            <select name="father" formControlName="father" #father>
+            </select>
+        </div>
+
+        <div>
+            <label for="mother">Mère</label>
+            <select name="mother" formControlName="mother" #mother>
+            </select>
+        </div>
+
+        <div>
+            <label for="legalResponsible">Responsable légal</label>
+            <select name="legalResponsible" formControlName="legalResponsible" #legalResponsible>
+            </select>
+        </div>
+
+        <div>
+            <label for="personToWarn">À contacter en cas de problème</label>
+            <select name="personToWarn" formControlName="personToWarn" #personToWarn>
+            </select>
+        </div>
+    </div>
+
+    <div>
+        <h2>Adresse</h2>
+
+        <div>
+            <label for="road">Rue</label>
+            <input name="road" type="text" formControlName="road" #road />
+        </div>
+
+        <div>
+            <label for="complement">Complément d'adresse</label>
+            <input name="complement" type="text" formControlName="complement" #complement />
+        </div>
+
+        <div>
+            <label for="city">Ville</label>
+            <input name="city" type="text" formControlName="city" #city />
+        </div>
+
+        <div>
+            <label for="zipcode">ZIP</label>
+            <input name="zipcode" type="number" formControlName="zipcode" #zipcode maxlength="5" />
+        </div>
+    </div>
+
+    <div>
+        <h2>Au sein de l'Aurore</h2>
+
+        <div>
+            <label for="inscriptionDate">Inscription</label>
+            <input name="inscriptionDate" type="date" formControlName="inscriptionDate" #inscriptionDate />
+        </div>
+
+        <div>
+            <label for="imageAuthorization">Droit à l'image</label>
+            <input name="imageAuthorization" type="checkbox" formControlName="imageAuthorization" #imageAuthorization />
+        </div>
+
+        <div>
+            <label for="reduction">Réduction</label>
+            <input name="reduction" type="number" formControlName="reduction" #reduction />
+        </div>
+    </div>
+
+    <div>
+        <button type="submit">Ajouter élève</button>
+
+        <span class="error">{{ error }}</span>
+    </div>
+</form>

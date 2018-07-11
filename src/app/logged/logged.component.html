@@ -1,4 +1,13 @@
-<button (click)="logout()">LOGOUT</button>
+<nav>
+    <ul>
+        <li><a routerLink="/admin/students" routerLinkActive="active">Élèves</a></li>
+    </ul>
 
-{{ admin.email }}
-{{ token }}
+    <button (click)="logout()">LOGOUT</button>
+    {{ admin.email }}
+    {{ token }}
+</nav>
+
+<main>
+    <router-outlet></router-outlet>
+</main>
