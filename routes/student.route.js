@@ -125,4 +125,47 @@ studentRoutes.route('/').get(function (req, res) {
   });
 });
 
+// PUT
+studentRoutes.route('/:id').put(function (req, res) {
+  let missingFields = getMissingFields(req.body);
+  if (missingFields.length > 0) {
+    res.status(400).send('Not all required fields are present: ' + missingFields.join(', '));
+    return;
+  }
+
+  Student.findOne({ id: req.id }, function (err, student) {
+    if(err){
+      console.log('err');
+      console.log(err);
+      return;
+    }
+
+    if (student === null) {
+      res.status(400).json('Unknown student');
+      return;
+    }
+
+    console.log(student);
+    req.body.forEach(function(key, value) {
+      if (key === '_id') return;
+      student[key] = value;
+    });
+    console.log(student);
+
+    student.save()
+    .then(student => {
+      console.log('success');
+      res.json(student);
+    })
+    .catch(err => {
+      console.log(err);
+      switch (err.code) {
+        default:
+          res.status(400).send("Unable to save student to database");
+          break;
+      }
+    });
+  });
+});
+
 module.exports = studentRoutes;

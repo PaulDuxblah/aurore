@@ -1,5 +1,7 @@
+<button (click)="showAdd()">Ajouter</button>
+
 <all *ngIf="router === '/admin/students'"></all>
 
 <add *ngIf="router === '/admin/students/add'"></add>
 
-<edit *ngIf="router === '/admin/students/edit'"></edit> 
+<edit *ngIf="router.includes('/admin/students/edit/')"></edit>

@@ -10,6 +10,7 @@ export class AddComponent implements OnInit {
   errors;
 
   constructor(private studentComponent: StudentComponent) {
+    console.log('add');
     this.studentComponent.createForm();
   }
 

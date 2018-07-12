@@ -5,6 +5,7 @@ import { AddComponent } from './add/add.component';
 import { AllComponent } from './all/all.component';
 import { EditComponent } from './edit/edit.component';
 import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'student',
@@ -15,13 +16,32 @@ export class StudentComponent implements OnInit {
   router: String;
   students = [];
   form: FormGroup;
+  params;
 
-  constructor(public _router: Router, private studentService: StudentService, private fb: FormBuilder) {
+  constructor(public _router: Router, private studentService: StudentService, private fb: FormBuilder, private route: ActivatedRoute,) {
     this.router = this._router.url;
   }
 
+  ngOnInit() {
+    this.params = this.route.snapshot.params;
+  }
+
+  showAdd() {
+    this._router.navigate(['add'], { relativeTo: this.route });
+  }
+
+  showEdit(id) {
+    this._router.navigate(['edit/' + id], { relativeTo: this.route });
+  }
+
   add(data) {
-    this.studentService.add(this.getPerson(data), function (result) {
+    this.studentService.add(this.getStudent(data), function (result) {
+      console.log(result);
+    });
+  }
+
+  update(data) {
+    this.studentService.update(data._id, this.getStudent(data), function (result) {
       console.log(result);
     });
   }
@@ -32,7 +52,13 @@ export class StudentComponent implements OnInit {
     });
   }
 
-  createForm() {
+  get(id, callback) {
+    this.studentService.get(id, function(student) {
+      callback(student);
+    });
+  }
+
+  createForm(data = {}) {
     this.form = this.fb.group({
       firstName: ['', Validators.required ],
       lastName: ['', Validators.required ],
@@ -55,7 +81,7 @@ export class StudentComponent implements OnInit {
     });
   }
 
-  getPerson(data) {
+  getStudent(data) {
     return {
       person: {
         firstName: data.firstName,
@@ -80,9 +106,6 @@ export class StudentComponent implements OnInit {
       legalReponsible: data.legalReponsible,
       personToWarn: data.personToWarn,
     };
-  }
-
-  ngOnInit() {
   }
 }
   

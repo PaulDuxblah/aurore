@@ -25,9 +25,9 @@ const appRoutes: Routes = [
         path: 'students', 
         component: StudentComponent, 
         children: [
-          { path: 'add', component: StudentComponent },
-          { path: 'all', component: StudentComponent },
-          { path: 'edit', component: StudentComponent },
+          { path: 'add', component: AddComponent },
+          { path: 'all', component: AllComponent },
+          { path: 'edit/:id', component: EditComponent },
         ]
       },
       { path: '**', redirectTo: '' }
