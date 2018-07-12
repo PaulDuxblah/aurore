@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Admin from '../../../models/admin';
+import Admin from '../../../models/Admin';
 import * as moment from 'moment';
 
 @Injectable({

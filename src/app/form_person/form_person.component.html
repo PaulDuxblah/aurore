@@ -1,0 +1,34 @@
+<form [formGroup]="form_person" novalidate>
+    <div>
+        <label for="lastName">Last name</label>
+        <input name="lastName" type="text" formControlName="lastName" #email />
+    </div>
+
+    <div>
+        <label for="firstName">First name</label>
+        <input name="firstName" type="text" formControlName="firstName" #email />
+    </div>
+
+    <div>
+        <label for="email">EMAIL</label>
+        <input name="email" type="text" formControlName="email" #email />
+    </div>
+
+    <div>
+        <label for="phone">Phone</label>
+        <input name="phone" type="number" formControlName="phone" #password />
+    </div>
+
+    <div>
+        <label for="birthDate">Birth date</label>
+        <input name="birthDate" type="date" formControlName="birthDate" #password />
+    </div>
+
+    <div>
+        <button (click)="loginAdmin(login.value.email, login.value.password)">LOGIN</button>
+
+        <span class="error">{{ error }}</span>
+    </div>
+</form>
+
+    
