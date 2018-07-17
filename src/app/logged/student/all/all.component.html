@@ -1,8 +1,22 @@
-<div *ngFor="let student of students">
-    {{ student.person.firstName }}
-    {{ student.person.lastName }}
-    {{ student.person.email }}
-    {{ student.person.phone }}
-    {{ student.person.address.road }}
-    <a routerLink="/admin/students/edit/{{ student._id }}" routerLinkActive="active">Modifier</a>
-</div>
+<a href="/admin/students/add">Ajouter</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Adresse</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let student of students">
+            <td>{{ student.person.firstName }} {{ student.person.lastName }}</td>
+            <td>{{ student.person.email }}</td>
+            <td>{{ student.person.phone }}</td>
+            <td>{{ student.person.address.road }}</td>
+            <td><a href="/admin/students/edit/{{ student._id }}">Modifier</a></td>
+        </tr>
+    </tbody>
+</table>

@@ -4,7 +4,6 @@ import { StudentService } from '../../services/student.service';
 import { AddComponent } from './add/add.component';
 import { AllComponent } from './all/all.component';
 import { EditComponent } from './edit/edit.component';
-import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -15,23 +14,14 @@ import { ActivatedRoute } from '@angular/router';
 export class StudentComponent implements OnInit {
   router: String;
   students = [];
-  form: FormGroup;
   params;
 
-  constructor(public _router: Router, private studentService: StudentService, private fb: FormBuilder, private route: ActivatedRoute,) {
+  constructor(public _router: Router, private studentService: StudentService, private route: ActivatedRoute) {
     this.router = this._router.url;
   }
 
   ngOnInit() {
     this.params = this.route.snapshot.params;
-  }
-
-  showAdd() {
-    this._router.navigate(['add'], { relativeTo: this.route });
-  }
-
-  showEdit(id) {
-    this._router.navigate(['edit/' + id], { relativeTo: this.route });
   }
 
   add(data) {
@@ -55,29 +45,6 @@ export class StudentComponent implements OnInit {
   get(id, callback) {
     this.studentService.get(id, function(student) {
       callback(student);
-    });
-  }
-
-  createForm(data = {}) {
-    this.form = this.fb.group({
-      firstName: ['', Validators.required ],
-      lastName: ['', Validators.required ],
-      birthDate: [],
-      email: [],
-      phone: [],
-      phone2: [],
-      phone3: [],
-      road: ['', Validators.required ],
-      complement: [],
-      city: ['', Validators.required ],
-      zipcode: ['', Validators.required ],
-      inscriptionDate: [],
-      reduction: [0],
-      imageAuthorization: [],
-      father: [],
-      mother: [],
-      legalResponsible: [],
-      personToWarn: [],
     });
   }
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentComponent } from '../student.component';
+import { FormComponent } from '../form/form.component';
 
 @Component({
   selector: 'add',
@@ -9,13 +10,10 @@ import { StudentComponent } from '../student.component';
 export class AddComponent implements OnInit {
   errors;
 
-  constructor(private studentComponent: StudentComponent) {
-    console.log('add');
-    this.studentComponent.createForm();
-  }
+  constructor(private studentComponent: StudentComponent, private formComponent: FormComponent) {}
 
   onSubmit() {
-    this.studentComponent.add(this.studentComponent.form.value);
+    this.studentComponent.add(this.formComponent.form.value);
     this.studentComponent._router.navigate(['/admin']);
   }
 

@@ -11,8 +11,9 @@ import { AdminService } from './services/admin.service';
 import { StudentService } from './services/student.service';
 import { LoggedComponent } from './logged/logged.component';
 import { StudentComponent } from './logged/student/student.component';
-import { AddComponent } from './logged/student/add/add.component';
+import { FormComponent } from './logged/student/form/form.component';
 import { AllComponent } from './logged/student/all/all.component';
+import { AddComponent } from './logged/student/add/add.component';
 import { EditComponent } from './logged/student/edit/edit.component';
 
 const appRoutes: Routes = [
@@ -44,7 +45,8 @@ const appRoutes: Routes = [
     StudentComponent,
     AddComponent,
     AllComponent,
-    EditComponent
+    EditComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +56,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     ReactiveFormsModule 
   ],
-  providers: [AdminService, StudentService],
+  providers: [AdminService, StudentService, FormComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

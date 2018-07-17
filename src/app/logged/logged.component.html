@@ -1,11 +1,14 @@
 <nav>
+    <a href="/admin">Accueil</a>
+
     <ul>
-        <li><a routerLink="/admin/students" routerLinkActive="active">Élèves</a></li>
+        <li><a href="/admin/students">Élèves</a></li>
     </ul>
 
     <button (click)="logout()">LOGOUT</button>
     {{ admin.email }}
     {{ token }}
+    <p>Trololol</p>
 </nav>
 
 <main>
