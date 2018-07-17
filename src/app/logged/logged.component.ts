@@ -3,9 +3,9 @@ import { AdminService } from '../services/admin.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'form_person',
-  templateUrl: './form_person.component.html',
-  styleUrls: ['./form_person.component.css']
+  selector: 'logged',
+  templateUrl: './logged.component.html',
+  styleUrls: ['./logged.component.css']
 })
 export class LoggedComponent implements OnInit {
   admin;
