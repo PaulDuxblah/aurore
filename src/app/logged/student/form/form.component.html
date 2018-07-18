@@ -2,9 +2,11 @@
     <div>
         <h2>Personnel</h2>
 
+        {{ student.firstName }}
+
         <div>
             <label for="firstName">Prénom</label>
-            <input name="firstName" type="text" formControlName="firstName" #firstName />
+            <input name="firstName" [(ngModel)]="student.firstName" type="text" formControlName="firstName" #firstName />
         </div>
 
         <div>

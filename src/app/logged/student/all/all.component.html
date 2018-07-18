@@ -1,4 +1,4 @@
-<a href="/admin/students/add">Ajouter</a>
+<a [routerLink]="['add']">Ajouter</a>
 
 <table>
     <thead>
@@ -16,7 +16,7 @@
             <td>{{ student.person.email }}</td>
             <td>{{ student.person.phone }}</td>
             <td>{{ student.person.address.road }}</td>
-            <td><a href="/admin/students/edit/{{ student._id }}">Modifier</a></td>
+            <td><a [routerLink]="['edit',  student._id]">Modifier</a></td>
         </tr>
     </tbody>
 </table>

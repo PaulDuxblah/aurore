@@ -4,7 +4,6 @@ import { StudentService } from '../../services/student.service';
 import { AddComponent } from './add/add.component';
 import { AllComponent } from './all/all.component';
 import { EditComponent } from './edit/edit.component';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'student',
@@ -14,15 +13,12 @@ import { ActivatedRoute } from '@angular/router';
 export class StudentComponent implements OnInit {
   router: String;
   students = [];
-  params;
 
-  constructor(public _router: Router, private studentService: StudentService, private route: ActivatedRoute) {
+  constructor(public _router: Router, private studentService: StudentService) {
     this.router = this._router.url;
   }
 
-  ngOnInit() {
-    this.params = this.route.snapshot.params;
-  }
+  ngOnInit() {}
 
   add(data) {
     this.studentService.add(this.getStudent(data), function (result) {

@@ -16,6 +16,7 @@ export class StudentService {
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + this.adminservice.getToken()
     });
+    console.log(uri);
 
     switch (type) {
       case 'GET':
@@ -43,7 +44,7 @@ export class StudentService {
   }
 
   getAll(callback) {
-    this.doCall(this.uri, 'GET', callback);
+    this.doCall(this.uri + 'all', 'GET', callback);
   }
 
   get(id, callback) {

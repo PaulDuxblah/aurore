@@ -26,8 +26,8 @@ const appRoutes: Routes = [
         path: 'students', 
         component: StudentComponent, 
         children: [
+          { path: '', component: AllComponent },
           { path: 'add', component: AddComponent },
-          { path: 'all', component: AllComponent },
           { path: 'edit/:id', component: EditComponent },
         ]
       },

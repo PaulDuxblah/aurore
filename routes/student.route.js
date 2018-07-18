@@ -40,6 +40,7 @@ studentRoutes.route('*').all(checkIfAuthenticated, function (req, res, next) {
 
 // POST
 studentRoutes.route('/').post(function (req, res) {
+  console.log('post');
   let missingFields = getMissingFields(req.body);
   if (missingFields.length > 0) {
     res.status(400).send('Not all required fields are present: ' + missingFields.join(', '));
@@ -91,8 +92,25 @@ studentRoutes.route('/').post(function (req, res) {
   });
 });
 
+// GET ALL
+studentRoutes.route('/all').get(function (req, res) {
+  console.log(req);
+  Student.find()
+  .populate({ path: 'person', populate: { path: 'address' } })
+  .exec(function (err, students) {
+    if(err){
+      console.log('err');
+      console.log(err);
+    } else {
+      console.log('success');
+      res.json(students);
+    }
+  });
+});
+
 // GET
 studentRoutes.route('/:id').post(function (req, res) {
+  console.log('get id');
   Student.findOne({ id: req.id }, function (err, student) {
     if(err){
       console.log('err');
@@ -110,23 +128,9 @@ studentRoutes.route('/:id').post(function (req, res) {
   });
 });
 
-// GET ALL
-studentRoutes.route('/').get(function (req, res) {
-  Student.find()
-  .populate({ path: 'person', populate: { path: 'address' } })
-  .exec(function (err, students) {
-    if(err){
-      console.log('err');
-      console.log(err);
-    } else {
-      console.log('success');
-      res.json(students);
-    }
-  });
-});
-
 // PUT
 studentRoutes.route('/:id').put(function (req, res) {
+  console.log('put');
   let missingFields = getMissingFields(req.body);
   if (missingFields.length > 0) {
     res.status(400).send('Not all required fields are present: ' + missingFields.join(', '));

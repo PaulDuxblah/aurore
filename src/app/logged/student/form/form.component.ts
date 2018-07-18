@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -10,12 +10,12 @@ export class FormComponent implements OnInit {
   form: FormGroup;
 
   constructor(private fb: FormBuilder) {
-    console.log('form');
     this.createForm();
   }
 
+  @Input() student: object;
+
   createForm(data = {}) {
-    console.log('createForm');
     this.form = this.fb.group({
       firstName: ['', Validators.required ],
       lastName: ['', Validators.required ],
