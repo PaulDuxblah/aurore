@@ -41,7 +41,6 @@ export class FormComponent implements OnInit {
     });
 
     if (this.student) {
-      console.log(this.studentComponent.getInputFormattedBirthDate(this.student));
       this.form.controls['firstName'].setValue(this.student.person.firstName);
       this.form.controls['lastName'].setValue(this.student.person.lastName);
       this.form.controls['birthDate'].setValue(this.studentComponent.getInputFormattedBirthDate(this.student));
