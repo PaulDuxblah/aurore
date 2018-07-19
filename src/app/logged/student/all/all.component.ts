@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { StudentComponent } from '../student.component';
 
 @Component({
-  selector: 'all',
+  selector: 'student-all',
   templateUrl: './all.component.html',
   styleUrls: ['./all.component.css']
 })
-export class AllComponent implements OnInit {
+export class StudentAllComponent implements OnInit {
   students = [];
 
   constructor(private studentComponent: StudentComponent) {

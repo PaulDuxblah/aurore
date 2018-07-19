@@ -1,21 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentComponent } from '../student.component';
+import { StudentFormComponent } from '../form/form.component';
 
 @Component({
-  selector: 'add',
+  selector: 'student-add',
   templateUrl: './add.component.html',
   styleUrls: ['./add.component.css']
 })
-export class AddComponent implements OnInit {
+export class StudentAddComponent implements OnInit {
   errors;
 
-  constructor(private studentComponent: StudentComponent) {
-    this.studentComponent.createForm();
-  }
+  constructor(private studentComponent: StudentComponent) {}
 
-  onSubmit() {
-    this.studentComponent.add(this.studentComponent.form.value);
-    this.studentComponent._router.navigate(['/admin']);
+  onSubmit(data) {
+    this.studentComponent.add(data);
+    this.studentComponent._router.navigate(['/admin/students']);
   }
 
   ngOnInit() {

@@ -1,6 +1,8 @@
 <nav>
+    <a [routerLink]="['/admin']">Accueil</a>
+
     <ul>
-        <li><a routerLink="/admin/students" routerLinkActive="active">Élèves</a></li>
+        <li><a [routerLink]="['/admin/students']">Élèves</a></li>
     </ul>
 
     <button (click)="logout()">LOGOUT</button>
