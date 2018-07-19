@@ -21,13 +21,13 @@ export class StudentComponent implements OnInit {
   ngOnInit() {}
 
   add(data) {
-    this.studentService.add(this.getStudent(data), function (result) {
+    this.studentService.add(this.formatStudent(data), function (result) {
       console.log(result);
     });
   }
 
   update(data) {
-    this.studentService.update(data._id, this.getStudent(data), function (result) {
+    this.studentService.update(data._id, this.formatStudent(data), function (result) {
       console.log(result);
     });
   }
@@ -44,12 +44,52 @@ export class StudentComponent implements OnInit {
     });
   }
 
-  getStudent(data) {
+  getFormattedDay(day) {
+    return day > 9 ? day : '0' + day;
+  }
+
+  getFormattedMonth(month) {
+    return month > 9 ? month : '0' + month;
+  }
+
+  getFrenchFormattedDate(date) {
+    return this.getFormattedDay(date.getDay()) + '/' + this.getFormattedMonth(date.getMonth()) + '/' + date.getFullYear();
+  }
+
+  getFrenchFormattedBirthDate(student) {
+    return this.getFrenchFormattedDate(new Date(student.person.birthDate));
+  }
+
+  getDbFormattedDate(date) {
+    return date.toISOString();
+  }
+
+  getInputFormattedDate(date) {
+    return date.getFullYear() + '-' + this.getFormattedMonth(date.getMonth()) + '-' + this.getFormattedDay(date.getDay());
+  }
+
+  getInputFormattedBirthDate(student) {
+    return this.getInputFormattedDate(new Date(student.person.birthDate));
+  }
+
+  getInputFormattedInscriptionDate(student) {
+    return this.getInputFormattedDate(new Date(student.inscriptionDate));
+  }
+
+  getDbFormattedBirthDate(student) {
+    return this.getDbFormattedDate(new Date(student.birthDate));
+  }
+
+  getDbFormattedInscriptionDate(student) {
+    return this.getDbFormattedDate(new Date(student.inscriptionDate));
+  }
+
+  formatStudent(data) {
     return {
       person: {
         firstName: data.firstName,
         lastName: data.lastName,
-        birthDate: data.birthDate,
+        birthDate: this.getDbFormattedBirthDate(data),
         email: data.email,
         phone: data.phone,
         phone2: data.phone2,
@@ -61,7 +101,7 @@ export class StudentComponent implements OnInit {
           zipcode: data.zipcode,
         }
       },
-      inscriptionDate: data.inscriptionDate,
+      inscriptionDate: this.getDbFormattedInscriptionDate(data),
       reduction: data.reduction,
       imageAuthorization: data.imageAuthorization,
       father: data.father,

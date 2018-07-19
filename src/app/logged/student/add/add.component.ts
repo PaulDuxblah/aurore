@@ -10,11 +10,11 @@ import { FormComponent } from '../form/form.component';
 export class AddComponent implements OnInit {
   errors;
 
-  constructor(private studentComponent: StudentComponent, private formComponent: FormComponent) {}
+  constructor(private studentComponent: StudentComponent) {}
 
-  onSubmit() {
-    this.studentComponent.add(this.formComponent.form.value);
-    this.studentComponent._router.navigate(['/admin']);
+  onSubmit(data) {
+    this.studentComponent.add(data);
+    this.studentComponent._router.navigate(['/admin/students']);
   }
 
   ngOnInit() {

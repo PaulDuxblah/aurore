@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { StudentComponent } from '../student.component';
 
 @Component({
   selector: 'student-form',
@@ -8,12 +9,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class FormComponent implements OnInit {
   form: FormGroup;
+  @Input() student: object;
+  @Output() onSubmit: EventEmitter<any> = new EventEmitter();
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private studentComponent: StudentComponent) {}
+
+  ngOnInit() {
     this.createForm();
   }
-
-  @Input() student: object;
 
   createForm(data = {}) {
     this.form = this.fb.group({
@@ -36,9 +39,32 @@ export class FormComponent implements OnInit {
       legalResponsible: [],
       personToWarn: [],
     });
+
+    if (this.student) {
+      console.log(this.studentComponent.getInputFormattedBirthDate(this.student));
+      this.form.controls['firstName'].setValue(this.student.person.firstName);
+      this.form.controls['lastName'].setValue(this.student.person.lastName);
+      this.form.controls['birthDate'].setValue(this.studentComponent.getInputFormattedBirthDate(this.student));
+      this.form.controls['email'].setValue(this.student.person.email);
+      this.form.controls['phone'].setValue(this.student.person.phone);
+      this.form.controls['phone2'].setValue(this.student.person.phone2);
+      this.form.controls['phone3'].setValue(this.student.person.phone3);
+      this.form.controls['road'].setValue(this.student.person.address.road);
+      this.form.controls['complement'].setValue(this.student.person.address.complement);
+      this.form.controls['city'].setValue(this.student.person.address.city);
+      this.form.controls['zipcode'].setValue(this.student.person.address.zipcode);
+      this.form.controls['inscriptionDate'].setValue(this.studentComponent.getInputFormattedInscriptionDate(this.student));
+      this.form.controls['reduction'].setValue(this.student.reduction);
+      this.form.controls['imageAuthorization'].setValue(this.student.imageAuthorization);
+      this.form.controls['father'].setValue(this.student.father);
+      this.form.controls['mother'].setValue(this.student.mother);
+      this.form.controls['legalResponsible'].setValue(this.student.legalResponsible);
+      this.form.controls['personToWarn'].setValue(this.student.personToWarn);
+    }
   }
 
-  ngOnInit() {
+  runOnSubmit(): void {
+    console.log(this.form.value);
+    this.onSubmit.emit(this.form.value);
   }
-
 }

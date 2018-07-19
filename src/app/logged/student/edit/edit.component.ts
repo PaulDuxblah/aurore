@@ -12,23 +12,20 @@ export class EditComponent implements OnInit {
   errors;
   student;
 
-  constructor(private studentComponent: StudentComponent, private formComponent: FormComponent, private route: ActivatedRoute) {
-    console.log('construtor edit');
-  }
+  constructor(private studentComponent: StudentComponent, private route: ActivatedRoute) {}
 
   ngOnInit() {
     const _this = this;
-    _this.studentComponent.get(_this.route.snapshot.params['id'], function(student) {
-      console.log('callback');
+    this.studentComponent.get(this.route.snapshot.params['id'], function(student) {
+      if (student.status) _this.studentComponent._router.navigate(['/admin']);
       console.log(student);
-      if (student.status) return;
       _this.student = student;
-      console.log(_this.student);
     });
   }
 
-  onSubmit() {
-    this.studentComponent.update(this.formComponent.form.value);
-    this.studentComponent._router.navigate(['/admin']);
+  onSubmit(data) {
+    data['_id'] = this.student._id;
+    this.studentComponent.update(data);
+    this.studentComponent._router.navigate(['/admin/students']);
   }
 }

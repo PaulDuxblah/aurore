@@ -10,7 +10,6 @@ export class AllComponent implements OnInit {
   students = [];
 
   constructor(private studentComponent: StudentComponent) {
-    console.log('all');
     const _this = this;
     this.studentComponent.getAll(function(students) {
       _this.students = students;

@@ -93,8 +93,7 @@ studentRoutes.route('/').post(function (req, res) {
 });
 
 // GET ALL
-studentRoutes.route('/all').get(function (req, res) {
-  console.log(req);
+studentRoutes.route('/').get(function (req, res) {
   Student.find()
   .populate({ path: 'person', populate: { path: 'address' } })
   .exec(function (err, students) {
@@ -109,9 +108,10 @@ studentRoutes.route('/all').get(function (req, res) {
 });
 
 // GET
-studentRoutes.route('/:id').post(function (req, res) {
-  console.log('get id');
-  Student.findOne({ id: req.id }, function (err, student) {
+studentRoutes.route('/:id').get(function (req, res) {
+  Student.findOne({ _id: req.params.id })
+  .populate({ path: 'person', populate: { path: 'address' } })
+  .exec(function (err, student) {
     if(err){
       console.log('err');
       console.log(err);
@@ -130,17 +130,19 @@ studentRoutes.route('/:id').post(function (req, res) {
 
 // PUT
 studentRoutes.route('/:id').put(function (req, res) {
-  console.log('put');
   let missingFields = getMissingFields(req.body);
   if (missingFields.length > 0) {
+    console.log('missingFields');
     res.status(400).send('Not all required fields are present: ' + missingFields.join(', '));
     return;
   }
 
-  Student.findOne({ id: req.id }, function (err, student) {
+  Student.findOne({ _id: req.params.id })
+  .populate({ path: 'person', populate: { path: 'address' } })
+  .exec(function (err, student) {
     if(err){
-      console.log('err');
       console.log(err);
+      console.log('err');
       return;
     }
 
@@ -149,23 +151,52 @@ studentRoutes.route('/:id').put(function (req, res) {
       return;
     }
 
-    console.log(student);
-    req.body.forEach(function(key, value) {
-      if (key === '_id') return;
-      student[key] = value;
-    });
-    console.log(student);
+    for (var key in req.body.person.address) {
+      student.person.address[key] = req.body.person.address[key];
+    }
 
-    student.save()
-    .then(student => {
-      console.log('success');
-      res.json(student);
+    student.person.address.save()
+    .then(address => {
+      for (var key in req.body.person) {
+        if (key === 'address') continue;
+        student.person[key] = req.body.person[key];
+      }
+
+      student.person.save()
+      .then(person => {
+        for (var key in req.body.person.address) {
+          if (key === 'person') continue;
+          student[key] = req.body[key];
+        }
+
+        student.save()
+        .then(student => {
+          console.log('success');
+          res.json(student);
+        })
+        .catch(err => {
+          console.log(err);
+          switch (err.code) {
+            default:
+              res.status(400).send("Unable to update student to database");
+              break;
+          }
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        switch (err.code) {
+          default:
+            res.status(400).send("Unable to update student's person to database");
+            break;
+        }
+      });
     })
     .catch(err => {
       console.log(err);
       switch (err.code) {
         default:
-          res.status(400).send("Unable to save student to database");
+          res.status(400).send("Unable to update student's address to database");
           break;
       }
     });
