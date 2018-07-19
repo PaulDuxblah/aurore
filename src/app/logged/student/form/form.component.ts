@@ -7,7 +7,7 @@ import { StudentComponent } from '../student.component';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css']
 })
-export class FormComponent implements OnInit {
+export class StudentFormComponent implements OnInit {
   form: FormGroup;
   @Input() student: object;
   @Output() onSubmit: EventEmitter<any> = new EventEmitter();

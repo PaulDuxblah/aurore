@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentComponent } from '../student.component';
-import { FormComponent } from '../form/form.component';
+import { StudentFormComponent } from '../form/form.component';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
-  selector: 'edit',
+  selector: 'student-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.css']
 })
-export class EditComponent implements OnInit {
+export class StudentEditComponent implements OnInit {
   errors;
   student;
 

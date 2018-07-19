@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentComponent } from '../student.component';
-import { FormComponent } from '../form/form.component';
+import { StudentFormComponent } from '../form/form.component';
 
 @Component({
-  selector: 'add',
+  selector: 'student-add',
   templateUrl: './add.component.html',
   styleUrls: ['./add.component.css']
 })
-export class AddComponent implements OnInit {
+export class StudentAddComponent implements OnInit {
   errors;
 
   constructor(private studentComponent: StudentComponent) {}

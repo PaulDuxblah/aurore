@@ -40,7 +40,6 @@ studentRoutes.route('*').all(checkIfAuthenticated, function (req, res, next) {
 
 // POST
 studentRoutes.route('/').post(function (req, res) {
-  console.log('post');
   let missingFields = getMissingFields(req.body);
   if (missingFields.length > 0) {
     res.status(400).send('Not all required fields are present: ' + missingFields.join(', '));

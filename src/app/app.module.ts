@@ -11,10 +11,10 @@ import { AdminService } from './services/admin.service';
 import { StudentService } from './services/student.service';
 import { LoggedComponent } from './logged/logged.component';
 import { StudentComponent } from './logged/student/student.component';
-import { FormComponent } from './logged/student/form/form.component';
-import { AllComponent } from './logged/student/all/all.component';
-import { AddComponent } from './logged/student/add/add.component';
-import { EditComponent } from './logged/student/edit/edit.component';
+import { StudentFormComponent } from './logged/student/form/form.component';
+import { StudentAllComponent } from './logged/student/all/all.component';
+import { StudentAddComponent } from './logged/student/add/add.component';
+import { StudentEditComponent } from './logged/student/edit/edit.component';
 
 const appRoutes: Routes = [
   { path: '', component: AuthComponent },
@@ -26,9 +26,9 @@ const appRoutes: Routes = [
         path: 'students', 
         component: StudentComponent, 
         children: [
-          { path: '', component: AllComponent },
-          { path: 'add', component: AddComponent },
-          { path: 'edit/:id', component: EditComponent },
+          { path: '', component: StudentAllComponent },
+          { path: 'add', component: StudentAddComponent },
+          { path: 'edit/:id', component: StudentEditComponent },
         ]
       },
       { path: '**', redirectTo: '' }
@@ -43,10 +43,10 @@ const appRoutes: Routes = [
     AuthComponent,
     LoggedComponent,
     StudentComponent,
-    AddComponent,
-    AllComponent,
-    EditComponent,
-    FormComponent
+    StudentAddComponent,
+    StudentAllComponent,
+    StudentEditComponent,
+    StudentFormComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +56,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     ReactiveFormsModule 
   ],
-  providers: [AdminService, StudentService, FormComponent],
+  providers: [AdminService, StudentService, StudentFormComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
