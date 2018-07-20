@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PersonComponent } from '../person.component';
+import { PersonFormComponent } from '../form/form.component';
+
 
 
 @Component({
@@ -14,8 +16,8 @@ export class PersonAddComponent implements OnInit {
     this.personComponent.createForm();
   }
 
-  onSubmit() {
-    this.personComponent.add(this.personComponent.form.value);
+  onSubmit(data) {
+    this.personComponent.add(data);
     this.personComponent._router.navigate(['/admin']);
   }
 

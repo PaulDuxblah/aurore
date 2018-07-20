@@ -32,6 +32,13 @@ export class StudentService {
           callback(error);
         });
         break;
+      case 'PUT':
+        this.http.put(uri, params, { headers }).subscribe((student) => {
+          callback(student);
+        }, (error) => {
+          callback(error);
+        });
+        break;
     }
   }
 
@@ -45,5 +52,9 @@ export class StudentService {
 
   add(data, callback) {
     this.doCall(this.uri, 'POST', callback, data);
+  }
+
+  update(id, data, callback) {
+    this.doCall(this.uri + id, 'PUT', callback, data);
   }
 }

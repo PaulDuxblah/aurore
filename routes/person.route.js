@@ -48,7 +48,7 @@ personRoutes.route('/').post(function (req, res) {
   const address = new Address(req.body.address);
 
   address.save()
-    .then(address => {  
+    .then(address => {
       const person = new Person(req.body);
       person.address = address._id;
 
@@ -78,15 +78,106 @@ personRoutes.route('/').post(function (req, res) {
 
 // GET ALL
 personRoutes.route('/').get(function (req, res) {
-  Person.find(function (err, persons){
-    if(err){
-      console.log('err');
-      console.log(err);
-    } else {
-      console.log('success');
-      res.json(persons);
-    }
-  });
+  console.log('GETALL')
+  Person.find()
+    .populate('address')
+    .exec(function (err, persons){
+      if(err){
+        console.log('err');
+        console.log(err);
+      } else {
+        console.log('success');
+        res.json(persons);
+      }
+    });
 });
+
+// GET
+personRoutes.route('/:id').get(function (req, res) {
+  console.log('GET')
+  Person.findOne({ _id: req.params.id })
+    .populate('address')
+    .exec(function (err, person) {
+      if(err){
+        console.log('err');
+        console.log(err);
+        return;
+      }
+
+      if (person === null) {
+        res.status(400).json('Unknown person');
+        return;
+      }
+
+      console.log('success');
+      res.json(person);
+    });
+});
+
+// PUT
+personRoutes.route('/:id').put(function (req, res) {
+  console.log('PUT')
+  let missingFields = getMissingFields(req.body);
+  if (missingFields.length > 0) {
+    console.log('missingFields');
+    res.status(400).send('Not all required fields are present: ' + missingFields.join(', '));
+    return;
+  }
+  console.log('p1')
+
+  Person.findOne({_id: req.params.id})
+    .populate('address')
+    .exec(function (err, person) {
+      if (err) {
+        console.log(err);
+        console.log('err');
+        return;
+      }
+      console.log('p2')
+
+      if (person === null) {
+        res.status(400).json('Unknown person');
+        return;
+      }
+      console.log('p3')
+      console.log(req.body.address)
+      for (var key in req.body.address) {
+        person.address[key] = req.body.address[key];
+      }
+      console.log('p4')
+      person.address.save() 
+        .then(address => {
+          for (var key in req.body) {
+            if (key === 'address') continue;
+            person[key] = req.body[key];
+          }
+          console.log('p5')
+
+          person.save()
+            .then(person => {
+              console.log('p6')
+              console.log('success');
+              res.json(person);
+            })
+            .catch(err => {
+              console.log(err);
+              switch (err.code) {
+                default:
+                  res.status(400).send("Unable to update person to database");
+                  break;
+              }
+            });
+        })
+        .catch(err => {
+          console.log(err);
+          switch (err.code) {
+            default:
+              res.status(400).send("Unable to update person's address to database");
+              break;
+          }
+        });
+    });
+});
+
 
 module.exports = personRoutes;

@@ -20,6 +20,7 @@ export class PersonService {
     switch (type) {
       case 'GET':
         this.http.get(uri, { headers }).subscribe((persons) => {
+          console.log(persons)
           callback(persons);
         }, (error) => {
           callback(error);
@@ -29,6 +30,13 @@ export class PersonService {
         console.log('POST');
         this.http.post(uri, params, { headers }).subscribe((person) => {
           console.log(person);
+          callback(person);
+        }, (error) => {
+          callback(error);
+        });
+        break;
+      case 'PUT':
+        this.http.put(uri, params, { headers }).subscribe((person) => {
           callback(person);
         }, (error) => {
           callback(error);
@@ -46,5 +54,9 @@ export class PersonService {
 
   add(data, callback) {
     this.doCall(this.uri, 'POST', callback, data);
+  }
+
+  update(id, data, callback) {
+    this.doCall(this.uri + id, 'PUT', callback, data);
   }
 }

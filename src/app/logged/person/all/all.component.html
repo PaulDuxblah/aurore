@@ -1,0 +1,22 @@
+<a [routerLink]="['add']">Ajouter</a>
+
+<table>
+  <thead>
+  <tr>
+    <th>Nom</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Adresse</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let person of persons">
+    <td>{{ person.firstName }} {{ person.lastName }}</td>
+    <td>{{ person.email }}</td>
+    <td>{{ person.phone }}</td>
+    <td>{{ person.address.road }}</td>
+    <td><a [routerLink]="['edit',  person._id]">Modifier</a></td>
+  </tr>
+  </tbody>
+</table>

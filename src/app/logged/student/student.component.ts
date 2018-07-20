@@ -1,10 +1,6 @@
 import { Component, OnInit  } from '@angular/core';
 import { Router } from '@angular/router';
 import { StudentService } from '../../services/student.service';
-import { AddComponent } from './add/add.component';
-import { AllComponent } from './all/all.component';
-import { EditComponent } from './edit/edit.component';
-import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
 
 @Component({
   selector: 'student',
@@ -14,14 +10,21 @@ import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
 export class StudentComponent implements OnInit {
   router: String;
   students = [];
-  form: FormGroup;
 
-  constructor(public _router: Router, private studentService: StudentService, private fb: FormBuilder) {
+  constructor(public _router: Router, private studentService: StudentService) {
     this.router = this._router.url;
   }
 
+  ngOnInit() {}
+
   add(data) {
-    this.studentService.add(this.getPerson(data), function (result) {
+    this.studentService.add(this.formatStudent(data), function (result) {
+      console.log(result);
+    });
+  }
+
+  update(data) {
+    this.studentService.update(data._id, this.formatStudent(data), function (result) {
       console.log(result);
     });
   }
@@ -32,35 +35,58 @@ export class StudentComponent implements OnInit {
     });
   }
 
-  createForm() {
-    this.form = this.fb.group({
-      firstName: ['', Validators.required ],
-      lastName: ['', Validators.required ],
-      birthDate: [],
-      email: [],
-      phone: [],
-      phone2: [],
-      phone3: [],
-      road: ['', Validators.required ],
-      complement: [],
-      city: ['', Validators.required ],
-      zipcode: ['', Validators.required ],
-      inscriptionDate: [],
-      reduction: [0],
-      imageAuthorization: [],
-      father: [],
-      mother: [],
-      legalResponsible: [],
-      personToWarn: [],
+  get(id, callback) {
+    this.studentService.get(id, function(student) {
+      callback(student);
     });
   }
 
-  getPerson(data) {
+  getFormattedDay(day) {
+    return day > 9 ? day : '0' + day;
+  }
+
+  getFormattedMonth(month) {
+    return month > 9 ? month : '0' + month;
+  }
+
+  getFrenchFormattedDate(date) {
+    return this.getFormattedDay(date.getDay()) + '/' + this.getFormattedMonth(date.getMonth()) + '/' + date.getFullYear();
+  }
+
+  getFrenchFormattedBirthDate(student) {
+    return this.getFrenchFormattedDate(new Date(student.person.birthDate));
+  }
+
+  getDbFormattedDate(date) {
+    return date.toISOString();
+  }
+
+  getInputFormattedDate(date) {
+    return date.getFullYear() + '-' + this.getFormattedMonth(date.getMonth()) + '-' + this.getFormattedDay(date.getDay());
+  }
+
+  getInputFormattedBirthDate(student) {
+    return this.getInputFormattedDate(new Date(student.person.birthDate));
+  }
+
+  getInputFormattedInscriptionDate(student) {
+    return this.getInputFormattedDate(new Date(student.inscriptionDate));
+  }
+
+  getDbFormattedBirthDate(student) {
+    return this.getDbFormattedDate(new Date(student.birthDate));
+  }
+
+  getDbFormattedInscriptionDate(student) {
+    return this.getDbFormattedDate(new Date(student.inscriptionDate));
+  }
+
+  formatStudent(data) {
     return {
       person: {
         firstName: data.firstName,
         lastName: data.lastName,
-        birthDate: data.birthDate,
+        birthDate: this.getDbFormattedBirthDate(data),
         email: data.email,
         phone: data.phone,
         phone2: data.phone2,
@@ -72,7 +98,7 @@ export class StudentComponent implements OnInit {
           zipcode: data.zipcode,
         }
       },
-      inscriptionDate: data.inscriptionDate,
+      inscriptionDate: this.getDbFormattedInscriptionDate(data),
       reduction: data.reduction,
       imageAuthorization: data.imageAuthorization,
       father: data.father,
@@ -80,9 +106,6 @@ export class StudentComponent implements OnInit {
       legalReponsible: data.legalReponsible,
       personToWarn: data.personToWarn,
     };
-  }
-
-  ngOnInit() {
   }
 }
   
