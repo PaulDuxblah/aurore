@@ -16,7 +16,7 @@
             <td>{{ student.person.email }}</td>
             <td>{{ student.person.phone }}</td>
             <td>{{ student.person.address.road }}</td>
-            <td><a [routerLink]="['edit',  student._id]">Modifier</a></td>
+            <td><a [routerLink]="['edit',  student.id]">Modifier</a></td>
         </tr>
     </tbody>
 </table>

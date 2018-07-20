@@ -100,7 +100,7 @@ studentRoutes.route('/').get(function (req, res) {
       console.log('err');
       console.log(err);
     } else {
-      console.log('success');
+      console.log('Students retrieved!');
       res.json(students);
     }
   });
@@ -122,7 +122,7 @@ studentRoutes.route('/:id').get(function (req, res) {
       return;
     }
 
-    console.log('success');
+    console.log('Student retrieved!');
     res.json(student);
   });
 });
@@ -131,7 +131,7 @@ studentRoutes.route('/:id').get(function (req, res) {
 studentRoutes.route('/:id').put(function (req, res) {
   let missingFields = getMissingFields(req.body);
   if (missingFields.length > 0) {
-    console.log('missingFields');
+    console.log('Not all required fields are present: ' + missingFields.join(', '));
     res.status(400).send('Not all required fields are present: ' + missingFields.join(', '));
     return;
   }
@@ -163,14 +163,14 @@ studentRoutes.route('/:id').put(function (req, res) {
 
       student.person.save()
       .then(person => {
-        for (var key in req.body.person.address) {
+        for (var key in req.body) {
           if (key === 'person') continue;
           student[key] = req.body[key];
         }
 
         student.save()
         .then(student => {
-          console.log('success');
+          console.log('Student updated!');
           res.json(student);
         })
         .catch(err => {

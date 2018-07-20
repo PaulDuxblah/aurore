@@ -12,8 +12,8 @@ export class AuthComponent implements OnInit {
   login: FormGroup;
   error;
 
-  constructor(private adminservice: AdminService, private fb: FormBuilder, private router: Router) {
-    if (this.adminservice.isLoggedIn()) {
+  constructor(private fb: FormBuilder, private router: Router, private adminService: AdminService) {
+    if (this.adminService.isLoggedIn()) {
       this.router.navigate(['/admin']);
     }
     this.createForm();
@@ -32,7 +32,7 @@ export class AuthComponent implements OnInit {
   loginAdmin(email, password) {
     const _this = this;
     
-    this.adminservice.login(email, password, function(data) {
+    this.adminService.login(email, password, function(data) {
       if (data.error) {
         if (typeof data.error === 'object' && data.error.type === 'error') {
           _this.error = 'Le serveur ne répond pas';
