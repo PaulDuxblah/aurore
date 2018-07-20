@@ -14,11 +14,21 @@ export class PersonComponent implements OnInit {
     students = [];
     form: FormGroup;
 
-
-
     constructor(public _router: Router, private personService: PersonService, private fb: FormBuilder) {
         this.router = this._router.url;
     }
+
+  getAll(callback) {
+    this.personService.getAll(function(persons) {
+      callback(persons);
+    });
+  }
+
+  add(data) {
+    this.personService.add(this.getPerson(data), function (result) {
+      console.log(result);
+    });
+  }
 
   createForm() {
     this.form = this.fb.group({
@@ -34,6 +44,24 @@ export class PersonComponent implements OnInit {
       city: ['', Validators.required ],
       zipcode: ['', Validators.required ],
     });
+  }
+
+  getPerson(data) {
+    return {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      birthDate: data.birthDate,
+      email: data.email,
+      phone: data.phone,
+      phone2: data.phone2,
+      phone3: data.phone3,
+      address: {
+        road: data.road,
+        complement: data.complement,
+        city: data.city,
+        zipcode: data.zipcode,
+      }
+    };
   }
 
   ngOnInit() {

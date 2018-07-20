@@ -8,7 +8,7 @@ import * as moment from 'moment';
   providedIn: 'root'
 })
 export class PersonService {
-  uri = 'http://localhost:4000/person/';
+  uri = 'http://localhost:4000/persons/';
 
   constructor(private http: HttpClient, private adminservice: AdminService) { }
 
@@ -19,20 +19,29 @@ export class PersonService {
 
     switch (type) {
       case 'GET':
-        this.http.get(uri, { headers }).subscribe((students) => {
-          callback(students);
+        this.http.get(uri, { headers }).subscribe((persons) => {
+          callback(persons);
         }, (error) => {
           callback(error);
         });
         break;
       case 'POST':
-        this.http.post(uri, params, { headers }).subscribe((student) => {
-          callback(student);
+        console.log('POST');
+        this.http.post(uri, params, { headers }).subscribe((person) => {
+          console.log(person);
+          callback(person);
         }, (error) => {
           callback(error);
         });
         break;
     }
+  }
+  getAll(callback) {
+    this.doCall(this.uri, 'GET', callback);
+  }
+
+  get(id, callback) {
+    this.doCall(this.uri + id, 'GET', callback);
   }
 
   add(data, callback) {

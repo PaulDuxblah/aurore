@@ -15,9 +15,8 @@ export class PersonAddComponent implements OnInit {
   }
 
   onSubmit() {
-    //this.studentComponent.add(this.studentComponent.form.value);
-    //this.studentComponent._router.navigate(['/admin']);
-    //tranquille
+    this.personComponent.add(this.personComponent.form.value);
+    this.personComponent._router.navigate(['/admin']);
   }
 
   ngOnInit() {

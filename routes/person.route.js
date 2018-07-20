@@ -37,6 +37,45 @@ personRoutes.route('*').all(checkIfAuthenticated, function (req, res, next) {
   next();
 });
 
+//POST
+personRoutes.route('/').post(function (req, res) {
+  let missingFields = getMissingFields(req.body);
+  if (missingFields.length > 0) {
+    res.status(400).send('Not all required fields are present: ' + missingFields.join(', '));
+    return;
+  }
+
+  const address = new Address(req.body.address);
+
+  address.save()
+    .then(address => {  
+      const person = new Person(req.body);
+      person.address = address._id;
+
+      person.save()
+        .then(person => {
+          console.log('Person added!');
+          res.json(person);
+        })
+        .catch(err => {
+          console.log(err);
+          switch (err.code) {
+            default:
+              res.status(400).send("Unable to save person to database");
+              break;
+          }
+        });
+    })
+    .catch(err => {
+      console.log(err);
+      switch (err.code) {
+        default:
+          res.status(400).send("Unable to save address to database");
+          break;
+      }
+    });
+});
+
 // GET ALL
 personRoutes.route('/').get(function (req, res) {
   Person.find(function (err, persons){
