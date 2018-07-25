@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StudentComponent } from '../student.component';
+import { Student } from '../../../models/student.model';
 
 @Component({
   selector: 'student-form',
@@ -9,7 +10,7 @@ import { StudentComponent } from '../student.component';
 })
 export class StudentFormComponent implements OnInit {
   form: FormGroup;
-  @Input() student: object;
+  @Input() student: Student;
   @Output() onSubmit: EventEmitter<any> = new EventEmitter();
 
   constructor(private fb: FormBuilder, private studentComponent: StudentComponent) {}
@@ -63,7 +64,6 @@ export class StudentFormComponent implements OnInit {
   }
 
   runOnSubmit(): void {
-    console.log(this.form.value);
     this.onSubmit.emit(this.form.value);
   }
 }

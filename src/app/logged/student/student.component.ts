@@ -1,6 +1,5 @@
 import { Component, OnInit  } from '@angular/core';
 import { Router } from '@angular/router';
-import { StudentService } from '../../services/student.service';
 
 @Component({
   selector: 'student',
@@ -11,75 +10,11 @@ export class StudentComponent implements OnInit {
   router: String;
   students = [];
 
-  constructor(public _router: Router, private studentService: StudentService) {
+  constructor(public _router: Router) {
     this.router = this._router.url;
   }
 
   ngOnInit() {}
-
-  add(data) {
-    this.studentService.add(this.formatStudent(data), function (result) {
-      console.log(result);
-    });
-  }
-
-  update(data) {
-    this.studentService.update(data._id, this.formatStudent(data), function (result) {
-      console.log(result);
-    });
-  }
-
-  getAll(callback) {
-    this.studentService.getAll(function(students) {
-      callback(students);
-    });
-  }
-
-  get(id, callback) {
-    this.studentService.get(id, function(student) {
-      callback(student);
-    });
-  }
-
-  getFormattedDay(day) {
-    return day > 9 ? day : '0' + day;
-  }
-
-  getFormattedMonth(month) {
-    return month > 9 ? month : '0' + month;
-  }
-
-  getFrenchFormattedDate(date) {
-    return this.getFormattedDay(date.getDay()) + '/' + this.getFormattedMonth(date.getMonth()) + '/' + date.getFullYear();
-  }
-
-  getFrenchFormattedBirthDate(student) {
-    return this.getFrenchFormattedDate(new Date(student.person.birthDate));
-  }
-
-  getDbFormattedDate(date) {
-    return date.toISOString();
-  }
-
-  getInputFormattedDate(date) {
-    return date.getFullYear() + '-' + this.getFormattedMonth(date.getMonth()) + '-' + this.getFormattedDay(date.getDay());
-  }
-
-  getInputFormattedBirthDate(student) {
-    return this.getInputFormattedDate(new Date(student.person.birthDate));
-  }
-
-  getInputFormattedInscriptionDate(student) {
-    return this.getInputFormattedDate(new Date(student.inscriptionDate));
-  }
-
-  getDbFormattedBirthDate(student) {
-    return this.getDbFormattedDate(new Date(student.birthDate));
-  }
-
-  getDbFormattedInscriptionDate(student) {
-    return this.getDbFormattedDate(new Date(student.inscriptionDate));
-  }
 
   formatStudent(data) {
     return {
@@ -106,6 +41,46 @@ export class StudentComponent implements OnInit {
       legalReponsible: data.legalReponsible,
       personToWarn: data.personToWarn,
     };
+  }
+
+  getFormattedDay(day) {
+    return (day > 9 ? day : '0' + day.toString()).toString();
+  }
+
+  getFormattedMonth(month) {
+    return ((month + 1) > 9 ? month + 1 : '0' + (month + 1).toString()).toString();
+  }
+
+  getFrenchFormattedDate(date) {
+    return this.getFormattedDay(date.getDate()) + '/' + this.getFormattedMonth(date.getMonth()) + '/' + date.getFullYear();
+  }
+
+  getFrenchFormattedBirthDate(student) {
+    return this.getFrenchFormattedDate(new Date(student.person.birthDate));
+  }
+
+  getDbFormattedDate(date) {
+    return date.toISOString();
+  }
+
+  getInputFormattedDate(date) {
+    return date.getFullYear() + '-' + this.getFormattedMonth(date.getMonth()) + '-' + this.getFormattedDay(date.getDate());
+  }
+
+  getInputFormattedBirthDate(student) {
+    return this.getInputFormattedDate(new Date(student.person.birthDate));
+  }
+
+  getInputFormattedInscriptionDate(student) {
+    return this.getInputFormattedDate(new Date(student.inscriptionDate));
+  }
+
+  getDbFormattedBirthDate(student) {
+    return this.getDbFormattedDate(new Date(student.birthDate));
+  }
+
+  getDbFormattedInscriptionDate(student) {
+    return this.getDbFormattedDate(new Date(student.inscriptionDate));
   }
 }
   

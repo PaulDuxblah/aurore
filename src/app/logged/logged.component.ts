@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Admin } from '../models/admin.model';
+import { ApiService } from '../services/api.service';
 import { AdminService } from '../services/admin.service';
 import { Router } from '@angular/router';
 
@@ -11,26 +13,18 @@ export class LoggedComponent implements OnInit {
   admin;
   token;
 
-  constructor(private adminService: AdminService, private router: Router) {
+  constructor(private router: Router, private adminService: AdminService, private apiService: ApiService) {
     if (this.adminService.isLoggedOut()) {
       this.router.navigate(['/']);
     }
 
-    this.admin = this.getAdmin();
-    this.token = this.getToken();
+    this.admin = this.adminService.getAdmin();
+    this.token = this.apiService.getToken();
   }
 
   logout() {
     this.adminService.logout();
     this.router.navigate(['/']);
-  }
-
-  getAdmin() {
-    return this.adminService.getAdmin();
-  }
-
-  getToken() {
-    return this.adminService.getToken();
   }
 
   ngOnInit() {
